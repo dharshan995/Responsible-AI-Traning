@@ -1,0 +1,32 @@
+import math
+import numpy as np
+import re
+import nltk
+from collections import Counter
+from nltk import ngrams
+
+# Initial setup for NLP processing
+nltk.download('punkt')
+
+
+def calculate_perplexity(text, n=2):
+    """Calculates the perplexity of text using a simple n-gram model."""
+    # Simple preprocessing: lowercase and remove special characters
+    text = re.sub(r'[^\w\s]', '', text.lower())
+    tokens = nltk.word_tokenize(text)
+
+    if not tokens:
+        return 0.0
+
+    # Use n-grams (default is bigrams) for demonstration
+    n_grams = list(ngrams(tokens, n))
+    freq_dist = nltk.FreqDist(n_grams)
+
+    # Calculate entropy
+    N = len(n_grams)
+    # Entropy formula: H(X) = -sum(P(x) * log2(P(x)))
+    entropy = -sum((freq_dist[ng] / N) * math.log2(freq_dist[ng] / N) for ng in freq_dist)
+
+    # Perplexity formula: 2^entropy
+    perplexity = math.pow(2, entropy)
+    return perplexity
