@@ -30,3 +30,4 @@ def calculate_perplexity(text, n=2):
     # Perplexity formula: 2^entropy
     perplexity = math.pow(2, entropy)
     return perplexity
+
